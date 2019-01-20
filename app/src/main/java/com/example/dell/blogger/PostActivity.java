@@ -13,11 +13,18 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
+
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -35,7 +42,11 @@ public class PostActivity extends AppCompatActivity {
     private static final int GALLERY_REQUEST = 101;
     private  Uri imageUri = null;
     private StorageReference storageReference;
-    private DatabaseReference mref;
+    private DatabaseReference postRef;
+    private DatabaseReference postRefUsers;
+    private FirebaseAuth postAuth;
+    private FirebaseUser postUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +58,10 @@ public class PostActivity extends AppCompatActivity {
         post = findViewById(R.id.post);
         progressDialog = new ProgressDialog(this);
         storageReference = FirebaseStorage.getInstance().getReference();
-        mref = FirebaseDatabase.getInstance().getReference("root");
+        postRef = FirebaseDatabase.getInstance().getReference("root");
+        postRefUsers = FirebaseDatabase.getInstance().getReference("Users").child(postUser.getUid());
+        postAuth = FirebaseAuth.getInstance();
+        postUser = postAuth.getCurrentUser();
 
         selectImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,16 +103,36 @@ public class PostActivity extends AppCompatActivity {
 
                         progressDialog.dismiss();
                         print("Posted");
-                        startActivity(new Intent(PostActivity.this,MainActivity.class));
+
 
                         path.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
                                 //ADD TO DATABASE
-                                DatabaseReference newPost = mref.push();
-                                newPost.child("Title").setValue(mtitle);
-                                newPost.child("Desc").setValue(mdesc);
-                                newPost.child("Image").setValue(uri.toString());
+                                final  Uri downloadUri = uri;
+                                final DatabaseReference newPost = postRef.push();
+
+                                postRefUsers.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        newPost.child("Title").setValue(mtitle);
+                                        newPost.child("Desc").setValue(mdesc);
+                                        newPost.child("Image").setValue(downloadUri.toString());
+                                        newPost.child("Uid").setValue(postUser.getUid());
+                                        startActivity(new Intent(PostActivity.this,MainActivity.class));
+                                       /*newPost.child("username").setValue(dataSnapshot.child("Email").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+
+                                            }
+                                        });*/
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        print(databaseError.getMessage());
+                                    }
+                                });
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -130,15 +164,14 @@ public class PostActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
-            progressDialog.setMessage("Please Wait...");
-            progressDialog.show();
+
             // SETTING IMAGE URI
              imageUri = data.getData();
            // selectImg.setImageURI(imageUri);
 
             // PICASSO IS BEST
             Picasso.with(PostActivity.this).load(imageUri).fit().centerCrop().into(selectImg);
-            progressDialog.dismiss();
+
         }
     }
 }

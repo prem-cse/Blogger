@@ -7,4 +7,21 @@
     <string name="post_it">Post it</string>
     <string name="todo">TODO</string>
     <string name="selected_image">Selected Image</string>
+    <string name="post_title">Post Title...</string>
+    <string name="post_description">Post Description...</string>
+    <string name="uploaded_images">uploaded images</string>
+    <string name="blogger_logo">blogger_logo</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="don_t_have_a_account_sign_up">Don\'t Have A Account ? Sign Up</string>
+    <string name="log_out">Log Out</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="facebook">Facebook</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="continue_with_facebook">Continue with Facebook</string>
+    <string name="blogger">Blogger</string>
+    <string name="or">OR</string>
+    <string name="get_started">Get Started!!!</string>
+    <string name="go_to_mainactivity">Go to Mainactivity</string>
 </resources>
