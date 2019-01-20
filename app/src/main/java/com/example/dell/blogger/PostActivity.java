@@ -45,7 +45,7 @@ public class PostActivity extends AppCompatActivity {
     private DatabaseReference postRef;
     private DatabaseReference postRefUsers;
     private FirebaseAuth postAuth;
-    private FirebaseUser postUser;
+   // private FirebaseUser postUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +58,12 @@ public class PostActivity extends AppCompatActivity {
         post = findViewById(R.id.post);
         progressDialog = new ProgressDialog(this);
         storageReference = FirebaseStorage.getInstance().getReference();
-        postRef = FirebaseDatabase.getInstance().getReference("root");
-        postRefUsers = FirebaseDatabase.getInstance().getReference("Users").child(postUser.getUid());
         postAuth = FirebaseAuth.getInstance();
-        postUser = postAuth.getCurrentUser();
+       // postUser = postAuth.getCurrentUser();
+        postRef = FirebaseDatabase.getInstance().getReference("root");
+        postRefUsers = FirebaseDatabase.getInstance().getReference("Users").child(postAuth.getCurrentUser().getUid());
+
+
 
         selectImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +99,7 @@ public class PostActivity extends AppCompatActivity {
 
                 // ELSE STORE
                 final StorageReference path = storageReference.child("Blog_images").child(imageUri.getLastPathSegment());
-                path.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+               path.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
@@ -112,20 +114,23 @@ public class PostActivity extends AppCompatActivity {
                                 final  Uri downloadUri = uri;
                                 final DatabaseReference newPost = postRef.push();
 
-                                postRefUsers.addValueEventListener(new ValueEventListener() {
+                                newPost.child("Title").setValue(mtitle);
+                                newPost.child("Desc").setValue(mdesc);
+                                newPost.child("Image").setValue(downloadUri.toString());
+                                newPost.child("Uid").setValue(postAuth.getCurrentUser().getUid());
+                               postRefUsers.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
-                                        newPost.child("Title").setValue(mtitle);
-                                        newPost.child("Desc").setValue(mdesc);
-                                        newPost.child("Image").setValue(downloadUri.toString());
-                                        newPost.child("Uid").setValue(postUser.getUid());
-                                        startActivity(new Intent(PostActivity.this,MainActivity.class));
-                                       /*newPost.child("username").setValue(dataSnapshot.child("Email").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                                        newPost.child("userEmail").setValue(dataSnapshot.child("Email").getValue(String.class)).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful())
+                                                    startActivity(new Intent(PostActivity.this,MainActivity.class));
+
 
                                             }
-                                        });*/
+                                        });
                                     }
 
                                     @Override

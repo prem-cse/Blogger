@@ -27,7 +27,6 @@
         android:background="@drawable/editext"
         android:padding="16dp"
         android:layout_margin="5dp"
-        android:textColor="#ffffffff"
         android:layout_below="@+id/imageButton"
         android:autofillHints="" />
 
@@ -38,7 +37,6 @@
         android:ems="10"
         android:inputType="textMultiLine"
         android:hint="@string/description"
-        android:textColor="#ffffffff"
         android:background="@drawable/editext"
         android:layout_below="@id/title"
         android:layout_above="@id/post"
