@@ -94,6 +94,7 @@ public class PostActivity extends AppCompatActivity {
                 } else if (imageUri == null) {
                     print("Upload an image");
                 }else{
+
                     progressDialog.setMessage("Posting...");
                     progressDialog.show();
 
@@ -105,8 +106,6 @@ public class PostActivity extends AppCompatActivity {
 
                         progressDialog.dismiss();
                         print("Posted");
-
-
                         path.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
@@ -122,7 +121,7 @@ public class PostActivity extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                        newPost.child("userEmail").setValue(dataSnapshot.child("Email").getValue(String.class)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        newPost.child("username").setValue(dataSnapshot.child("name").getValue(String.class)).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful())

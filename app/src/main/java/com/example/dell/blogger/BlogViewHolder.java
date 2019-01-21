@@ -15,6 +15,7 @@ public class BlogViewHolder extends RecyclerView.ViewHolder{
     private TextView post_title;
     private TextView post_desc;
     private ImageView post_image;
+    private TextView user;
     private View v;
     public BlogViewHolder(View itemView) {
         super(itemView);
@@ -31,7 +32,13 @@ public class BlogViewHolder extends RecyclerView.ViewHolder{
         post_desc.setText(desc);
      }
 
-     public void setPost_image(final Context context, final String image) {
+    public void setUsername(String Username) {
+        user = v.findViewById(R.id.user);
+        user.setText(Username);
+
+    }
+
+    public void setPost_image(final Context context, final String image) {
          post_image = v.findViewById(R.id.post_image);
        /*  Picasso.with(context).load(image).networkPolicy(NetworkPolicy.OFFLINE).into(post_image, new Callback() {
              @Override

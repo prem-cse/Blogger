@@ -5,14 +5,9 @@ public class Users {
     private String Title;
     private String Desc;
     private String Image;
+    private String username;
 
     public Users(){}
-
-    public Users(String title, String desc, String image) {
-        Title = title;
-        Desc = desc;
-        Image = image;
-    }
 
     public String getTitle() {
         return Title;
@@ -36,5 +31,20 @@ public class Users {
 
     public void setImage(String image) {
         Image = image;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Users(String title, String desc, String image, String username) {
+        Title = title;
+        Desc = desc;
+        Image = image;
+        this.username = username;
     }
 }

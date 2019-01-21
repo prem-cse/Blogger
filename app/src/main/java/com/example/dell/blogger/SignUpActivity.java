@@ -110,9 +110,9 @@ public class SignUpActivity extends AppCompatActivity {
 
                     if(task.isSuccessful()){
                         String userId = auth.getCurrentUser().getUid();
-                        DatabaseReference current_user = mref.child(userId);
+                       DatabaseReference current_user = mref.child(userId);
                         current_user.child("Email").setValue(Email);
-                        current_user.child("Image").setValue("default");
+
 
                         Print("Successfully Registered");
                         startActivity(new Intent(SignUpActivity.this,ProfileActivity.class));

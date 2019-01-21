@@ -24,4 +24,8 @@
     <string name="or">OR</string>
     <string name="get_started">Get Started!!!</string>
     <string name="go_to_mainactivity">Go to Mainactivity</string>
+    <string name="user">User</string>
+    <string name="finish">Finish</string>
+    <string name="full_name">Full Name</string>
+    <string name="dp_of_user">dp of user</string>
 </resources>

@@ -12,9 +12,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference mainRef;
     private DatabaseReference mainRefUsers;
     private FirebaseAuth mainAuth;
+
     private FirebaseAuth.AuthStateListener authStateListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +62,16 @@ public class MainActivity extends AppCompatActivity {
                  }
              }
          };
+
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         checkUserExist();
+
         mainAuth.addAuthStateListener(authStateListener);
         // UPDATED WAY TO USE FIREBASERECYCLERADAPTER
         FirebaseRecyclerOptions<Users> options =
@@ -81,9 +91,20 @@ public class MainActivity extends AppCompatActivity {
            @Override
            protected void onBindViewHolder(@NonNull BlogViewHolder holder, int position, @NonNull Users model) {
 
+               final String user_key = getRef(position).getKey();
+
                holder.setPost_title(model.getTitle());
                holder.setPost_desc(model.getDesc());
+               holder.setUsername(model.getUsername());
                holder.setPost_image(getApplicationContext(),model.getImage());
+             // WHEN USER CLICK ON CARDVIEW
+               holder.itemView.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       Print(user_key);
+                   }
+               });
+
            }
        };
         bloglist.setAdapter(firebaseRecyclerAdapter);
@@ -134,7 +155,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this,PostActivity.class));
         }else if(item.getItemId() == R.id.logOut){
             mainAuth.signOut();
+
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void Print(String str) {
+
+        Toast.makeText(MainActivity.this,str,Toast.LENGTH_SHORT).show();
     }
 }
