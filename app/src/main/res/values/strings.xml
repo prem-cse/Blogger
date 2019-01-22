@@ -28,4 +28,7 @@
     <string name="finish">Finish</string>
     <string name="full_name">Full Name</string>
     <string name="dp_of_user">dp of user</string>
+    <string name="post_image">post_image</string>
+    <string name="delete">Delete</string>
+    <string name="profile">Profile</string>
 </resources>

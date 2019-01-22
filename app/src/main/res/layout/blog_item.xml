@@ -37,8 +37,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/post_description"
-
             android:textStyle="bold"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:id="@+id/like"
+                android:layout_height="wrap_content"
+                android:background="@color/cardview_shadow_end_color"
+                android:src="@drawable/grey_like"
+                android:layout_weight="1"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:id="@+id/dislike"
+                android:layout_height="wrap_content"
+                android:background="@color/cardview_shadow_end_color"
+                android:src="@drawable/grey_dislike"
+                android:layout_weight="1"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:id="@+id/comment"
+                android:layout_height="wrap_content"
+                android:background="@color/cardview_shadow_end_color"
+                android:src="@drawable/comment_grey"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

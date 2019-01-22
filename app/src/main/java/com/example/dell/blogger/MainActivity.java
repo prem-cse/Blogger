@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,9 +36,11 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView bloglist;
     private DatabaseReference mainRef;
     private DatabaseReference mainRefUsers;
+    private DatabaseReference mainRefLike;
     private FirebaseAuth mainAuth;
-
+    private boolean liked = false;
     private FirebaseAuth.AuthStateListener authStateListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +49,10 @@ public class MainActivity extends AppCompatActivity {
          bloglist= findViewById(R.id.bloglist);
          mainRef = FirebaseDatabase.getInstance().getReference("root");
          mainRefUsers = FirebaseDatabase.getInstance().getReference("Users");
+         mainRefLike = FirebaseDatabase.getInstance().getReference("Liked");
          mainRefUsers.keepSynced(true);
          mainRef.keepSynced(true);
+         mainRefLike.keepSynced(true);
          bloglist.setHasFixedSize(true);
          bloglist.setLayoutManager(new LinearLayoutManager(this));
          mainAuth = FirebaseAuth.getInstance();
@@ -62,9 +67,6 @@ public class MainActivity extends AppCompatActivity {
                  }
              }
          };
-
-
-
     }
 
     @Override
@@ -91,20 +93,51 @@ public class MainActivity extends AppCompatActivity {
            @Override
            protected void onBindViewHolder(@NonNull BlogViewHolder holder, int position, @NonNull Users model) {
 
-               final String user_key = getRef(position).getKey();
+               final String post_key = getRef(position).getKey();
 
                holder.setPost_title(model.getTitle());
                holder.setPost_desc(model.getDesc());
                holder.setUsername(model.getUsername());
                holder.setPost_image(getApplicationContext(),model.getImage());
-             // WHEN USER CLICK ON CARDVIEW
+               holder.set_Liked(post_key);
+
+             //WHEN USER CLICK ON CARDVIEW
                holder.itemView.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View v) {
-                       Print(user_key);
+
+                       Intent description = new Intent(MainActivity.this,Description.class);
+                       description.putExtra("post_key",post_key);
+                       startActivity(description);
                    }
                });
 
+               holder.like.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       liked = true;
+
+                           mainRefLike.addValueEventListener(new ValueEventListener() {
+                               @Override
+                               public void onDataChange(DataSnapshot dataSnapshot) {
+                                   //
+                                   if (liked) {
+                                       if (dataSnapshot.child(post_key).hasChild(mainAuth.getCurrentUser().getUid())) {
+
+                                           mainRefLike.child(post_key).child(mainAuth.getCurrentUser().getUid()).removeValue();
+                                       } else {
+                                           mainRefLike.child(post_key).child(mainAuth.getCurrentUser().getUid()).setValue(mainAuth.getCurrentUser().getEmail());
+                                       }
+                                       liked = false;
+                                   }
+                               }
+                               @Override
+                               public void onCancelled(DatabaseError databaseError) {
+
+                               }
+                           });
+                   }
+               });
            }
        };
         bloglist.setAdapter(firebaseRecyclerAdapter);
@@ -156,6 +189,8 @@ public class MainActivity extends AppCompatActivity {
         }else if(item.getItemId() == R.id.logOut){
             mainAuth.signOut();
 
+        }else if(item.getItemId() == R.id.profile){
+            startActivity(new Intent(MainActivity.this,Dashboard.class));
         }
         return super.onOptionsItemSelected(item);
     }

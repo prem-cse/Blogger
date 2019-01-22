@@ -14,8 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfileActivity"></activity>
-
+        <activity android:name=".Description"></activity>
+        <activity android:name=".Dashboard" />
+        <activity android:name=".ProfileActivity" />
         <activity
             android:name=".SignUpActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -30,7 +31,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".PostActivity" />
-
     </application>
 
 </manifest>

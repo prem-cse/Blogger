@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@drawable/gradient"
+    tools:context=".ProfileActivity">
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/dp"
+        android:src="@drawable/image"
+        android:contentDescription="@string/dp_of_user"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/username"
+        android:layout_margin="5dp"
+        android:hint="@string/full_name"
+        android:background="@drawable/editext"
+        android:padding="15dp"
+        android:textColorHint="#ffffffff"
+        android:textColor="#ffffffff"
+        android:layout_below="@+id/dp"
+        android:inputType="textPersonName"
+        android:autofillHints="type your name" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/forward"
+        android:text="@string/finish"
+        android:textColor="#ffffffff"
+        android:background="@drawable/button"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

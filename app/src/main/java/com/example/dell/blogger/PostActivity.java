@@ -113,7 +113,7 @@ public class PostActivity extends AppCompatActivity {
                                 final  Uri downloadUri = uri;
                                 final DatabaseReference newPost = postRef.push();
 
-                                newPost.child("Title").setValue(mtitle);
+                                newPost.child("Title").setValue(CamleCase(mtitle));
                                 newPost.child("Desc").setValue(mdesc);
                                 newPost.child("Image").setValue(downloadUri.toString());
                                 newPost.child("Uid").setValue(postAuth.getCurrentUser().getUid());
@@ -157,6 +157,12 @@ public class PostActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private Object CamleCase(String mtitle) {
+       String str = mtitle.substring(0,1).toUpperCase().concat(mtitle.substring(1));
+       return str;
+
     }
 
     private void print(String str) {
