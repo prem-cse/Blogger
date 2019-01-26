@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -188,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this,PostActivity.class));
         }else if(item.getItemId() == R.id.logOut){
             mainAuth.signOut();
+            LoginManager.getInstance().logOut();
 
         }else if(item.getItemId() == R.id.profile){
             startActivity(new Intent(MainActivity.this,Dashboard.class));

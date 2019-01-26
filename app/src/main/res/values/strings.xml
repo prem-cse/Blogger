@@ -31,4 +31,7 @@
     <string name="post_image">post_image</string>
     <string name="delete">Delete</string>
     <string name="profile">Profile</string>
+    <string name="facebook_app_id">2761019177456951</string>
+    <string name="fb_login_protocol_scheme">fb2761019177456951</string>
+
 </resources>
