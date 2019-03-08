@@ -161,6 +161,8 @@ public class LogInActivity extends AppCompatActivity {
                 signIn();
             }
         });
+
+        printKeyHash();
     }
 
     private void signIn() {
@@ -313,6 +315,23 @@ public class LogInActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                     }
                 });
+    }
+
+    private void printKeyHash() {
+        try{
+            PackageInfo info = getPackageManager().getPackageInfo("com.example.dell.blogger", PackageManager.GET_SIGNATURES);
+            for(Signature signature : info.signatures){
+                MessageDigest messageDigest = MessageDigest.getInstance("SHA");
+                messageDigest.update(signature.toByteArray());
+                Log.e("EYHASH",Base64.encodeToString(messageDigest.digest(),Base64.DEFAULT));
+
+
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 }
 

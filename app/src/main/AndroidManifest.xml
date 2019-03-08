@@ -32,15 +32,20 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Description"/>
-        <activity android:name=".Dashboard" />
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".Description"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Dashboard"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ProfileActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SignUpActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".LogInActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,7 +53,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PostActivity" />
+        <activity android:name=".PostActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
